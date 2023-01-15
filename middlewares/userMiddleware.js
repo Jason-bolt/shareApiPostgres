@@ -1,5 +1,5 @@
 const User = require("../models/User");
-import * as Validator from "validatorjs";
+let Validator = require("validatorjs");
 
 exports.userValidFields = (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
@@ -21,30 +21,36 @@ exports.userValidFields = (req, res, next) => {
 
   if (validation.fails()) {
     res.status(403).send({
-      errors: validation,
+      errors: validation.errors.errors,
     });
-  }
-  const user = {
-    email: email,
-    password: password,
-    firstName: firstName,
-    lastName: lastName,
-  };
+  } else {
+    const user = {
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+    };
 
-  req.user = user;
-  next();
+    req.user = user;
+    next();
+  }
 };
 
 exports.isUserUnique = async (req, res, next) => {
   try {
     const email = req.user.email;
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
     if (user) {
       res.status(409).send({
         error: "User already exsits",
       });
+    } else {
+      next();
     }
-    next();
   } catch (err) {
     res.status(500).send({
       error: err,

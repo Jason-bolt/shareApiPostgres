@@ -7,9 +7,8 @@ exports.getAllTestimonies = async (req, res) => {
       res.status(500).send({
         error: testimonies.error,
       });
-    } else {
-      res.status(200).send(testimonies);
     }
+    res.status(200).send(testimonies);
   } catch (err) {
     res.status(500).send({
       error: err,

@@ -3,7 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./config/db");
-const publicRoutes = require("./routes/publicRoute");
+const publicRoute = require("./routes/publicRoute");
+const userRoute = require("./routes/userRoute");
 
 const app = express();
 const PORT = 3000 || process.env.PORT;
@@ -11,9 +12,12 @@ const PORT = 3000 || process.env.PORT;
 // Synchronize all tables
 db.sync({ force: true })
   .then(() => {
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use(morgan("dev"));
     app.use(cors());
-    app.use(publicRoutes);
+    app.use("/testimonies", publicRoute);
+    app.use("/user", userRoute);
 
     app.listen(PORT, console.log(`Server running on port ${PORT}`));
   })
