@@ -10,4 +10,11 @@ router.post("/", [
   userController.createUser,
 ]);
 
+// @desc    Log user in
+// @route   POST /login
+router.post("/login", [
+  userMiddleware.isPasswordAndUserMatch,
+  userController.login,
+]);
+
 module.exports = router;

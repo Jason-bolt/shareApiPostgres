@@ -5,15 +5,17 @@ require("dotenv").config();
 const db = require("./config/db");
 const publicRoute = require("./routes/publicRoute");
 const userRoute = require("./routes/userRoute");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
 // Synchronize all tables
-db.sync({ force: true })
+db.sync()
   .then(() => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(cookieParser());
     app.use(morgan("dev"));
     app.use(cors());
     app.use("/testimonies", publicRoute);
