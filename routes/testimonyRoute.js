@@ -18,4 +18,11 @@ router.put("/update", [
   testimonyController.updateTestimony,
 ]);
 
+// @desc    Delete testimony
+// @route   DELETE /testimony/delete
+router.delete("/delete", [
+  Middleware.auth,
+  testimonyController.deleteTestimony,
+]);
+
 module.exports = router;

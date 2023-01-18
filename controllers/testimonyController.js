@@ -57,3 +57,19 @@ exports.updateTestimony = async (req, res) => {
     });
   }
 };
+
+exports.deleteTestimony = async (req, res) => {
+  try {
+    const testimonyID = req.body.id;
+
+    const deleted = await testimonyService.deleteTestimony(testimonyID);
+
+    if (deleted) {
+      res.status(200).send("Testimony deleted!");
+    } else {
+      res.status(500).send({ error: deleted.error });
+    }
+  } catch (err) {
+    return { error: err };
+  }
+};

@@ -20,7 +20,7 @@ exports.updateTestimony = async (testimonyPayload, testimonyID) => {
   try {
     const { testimony, tags } = testimonyPayload;
 
-    const updated = await Testimony.update(
+    await Testimony.update(
       {
         testimony: testimony,
         tags: tags,
@@ -31,8 +31,30 @@ exports.updateTestimony = async (testimonyPayload, testimonyID) => {
         },
       }
     );
+    return true;
+  } catch (err) {
+    return { error: err };
+  }
+};
 
-    return updated;
+exports.deleteTestimony = async (testimonyID) => {
+  try {
+    const testimony = await Testimony.findOne({
+      where: {
+        id: testimonyID,
+      },
+    });
+
+    if (!testimony) {
+      return { error: "Invalid testimony ID" };
+    } else {
+      await Testimony.destroy({
+        where: {
+          id: testimonyID,
+        },
+      });
+      return true;
+    }
   } catch (err) {
     return { error: err };
   }
