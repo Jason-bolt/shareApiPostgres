@@ -138,3 +138,64 @@ exports.isRefreshTokenValid = async (req, res, next) => {
     res.status(500).send({ error: err });
   }
 };
+
+exports.auth = (req, res, next) => {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader.split(" ")[1];
+
+    if (!token) {
+      res.status(403).send({
+        error: "No access token",
+      });
+    } else {
+      jwt.verify(token, process.env.JWT_TOKEN_SECRET, (err, user) => {
+        if (err) {
+          res.status(403).send({
+            error: err,
+          });
+        } else {
+          req.user = user;
+          next();
+        }
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
+// TESTIMONY
+exports.validateTestimony = (req, res, next) => {
+  try {
+    const { testimony, tags } = req.body;
+
+    let data = {
+      testimony: testimony,
+      tags: tags,
+    };
+
+    let rules = {
+      testimony: "required|string",
+      tags: "required|array",
+    };
+
+    let validation = new Validator(data, rules);
+
+    if (validation.fails()) {
+      res.status(403).send({
+        errors: validation.errors.errors,
+      });
+    } else {
+      next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};

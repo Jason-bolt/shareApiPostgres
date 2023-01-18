@@ -5,6 +5,7 @@ require("dotenv").config();
 const db = require("./config/db");
 const publicRoute = require("./routes/publicRoute");
 const userRoute = require("./routes/userRoute");
+const testimonyRoute = require("./routes/testimonyRoute");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 
@@ -12,7 +13,7 @@ const app = express();
 const PORT = 3000 || process.env.PORT;
 
 // Synchronize all tables
-db.sync({ force: true })
+db.sync()
   .then(() => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -20,8 +21,9 @@ db.sync({ force: true })
     app.use(cookieParser());
     app.use(cors());
     app.use(morgan("dev"));
-    app.use("/testimonies", publicRoute);
+    app.use("/", publicRoute);
     app.use("/user", userRoute);
+    app.use("/testimony", testimonyRoute);
 
     app.listen(PORT, console.log(`Server running on port ${PORT}`));
   })
