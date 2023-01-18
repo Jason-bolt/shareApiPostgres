@@ -10,4 +10,12 @@ router.post("/", [
   testimonyController.createTestimony,
 ]);
 
+// @desc    Update testimony
+// @route   PUT /testimony/update
+router.put("/update", [
+  Middleware.auth,
+  Middleware.validateTestimony,
+  testimonyController.updateTestimony,
+]);
+
 module.exports = router;

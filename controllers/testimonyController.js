@@ -15,11 +15,40 @@ exports.createTestimony = async (req, res) => {
     );
 
     if (newTestimony.error) {
-      res.status(403).send({
+      res.status(500).send({
         error: newTestimony.error,
       });
     } else {
-      res.send(newTestimony);
+      res.status(201).send(newTestimony);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
+exports.updateTestimony = async (req, res) => {
+  try {
+    const { testimony, tags } = req.body;
+    const testimonyPayload = {
+      testimony: testimony,
+      tags: tags,
+    };
+    const testimonyID = req.query.id;
+    console.log(testimonyID);
+    const updated = await testimonyService.updateTestimony(
+      testimonyPayload,
+      testimonyID
+    );
+
+    if (updated) {
+      res.status(200).send("Testimony updated");
+    } else {
+      res.status(500).send({
+        error: updated.error,
+      });
     }
   } catch (err) {
     console.error(err);

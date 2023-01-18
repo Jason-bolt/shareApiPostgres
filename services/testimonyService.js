@@ -1,29 +1,39 @@
 const Testimony = require("../models/Testimony");
 
 exports.createTestimony = async (testimonyPayload, userID) => {
-  const { testimony, tags } = testimonyPayload;
+  try {
+    const { testimony, tags } = testimonyPayload;
 
-  const newTestimony = await Testimony.create({
-    testimony: testimony,
-    tags: tags,
-    UserId: userID,
-  });
+    const newTestimony = await Testimony.create({
+      testimony: testimony,
+      tags: tags,
+      UserId: userID,
+    });
 
-  return newTestimony;
+    return newTestimony;
+  } catch (err) {
+    return { error: err };
+  }
 };
 
-// exports.updateTestimony = async (testimonyPayload, userID) => {
-//     const { testimony, tags } = testimonyPayload;
+exports.updateTestimony = async (testimonyPayload, testimonyID) => {
+  try {
+    const { testimony, tags } = testimonyPayload;
 
-//     await Testimony.update({
-//       testimony: testimony,
-//       tags: tags,
-//     }, {
-//         where: {
-//             "id"
-//         }
-//     });
+    const updated = await Testimony.update(
+      {
+        testimony: testimony,
+        tags: tags,
+      },
+      {
+        where: {
+          id: testimonyID,
+        },
+      }
+    );
 
-//     return true
-
-// }
+    return updated;
+  } catch (err) {
+    return { error: err };
+  }
+};
