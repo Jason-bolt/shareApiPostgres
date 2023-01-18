@@ -38,3 +38,27 @@ exports.login = (user) => {
     return { error: err };
   }
 };
+
+exports.refreshToken = async (email) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    const data = {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+
+    const acces_token = jwt.sign(data, process.env.JWT_TOKEN_SECRET);
+    console.log(acces_token);
+    return { acces_token: acces_token };
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};

@@ -4,17 +4,24 @@ const userMiddleware = require("../middlewares/userMiddleware");
 
 // @desc    Create user
 // @route   POST /user
-router.post("/", [
+router.post("/register", [
   userMiddleware.userValidFields,
   userMiddleware.isUserUnique,
   userController.createUser,
 ]);
 
 // @desc    Log user in
-// @route   POST /login
+// @route   POST /user/login
 router.post("/login", [
   userMiddleware.isPasswordAndUserMatch,
   userController.login,
+]);
+
+// @desc  Refresh token
+// @route Post /user/refreshToken
+router.post("/refreshToken", [
+  userMiddleware.isRefreshTokenValid,
+  userController.refreshToken,
 ]);
 
 module.exports = router;

@@ -6,18 +6,20 @@ const db = require("./config/db");
 const publicRoute = require("./routes/publicRoute");
 const userRoute = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
 // Synchronize all tables
-db.sync()
+db.sync({ force: true })
   .then(() => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(helmet());
     app.use(cookieParser());
-    app.use(morgan("dev"));
     app.use(cors());
+    app.use(morgan("dev"));
     app.use("/testimonies", publicRoute);
     app.use("/user", userRoute);
 

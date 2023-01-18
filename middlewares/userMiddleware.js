@@ -1,6 +1,7 @@
 const User = require("../models/User");
 let Validator = require("validatorjs");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.userValidFields = (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
@@ -100,6 +101,37 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
           res.status(404).send({ error: "Invalid username or password!" });
         }
       }
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err });
+  }
+};
+
+exports.isRefreshTokenValid = async (req, res, next) => {
+  try {
+    if (req.cookies?.jwt) {
+      const refresh_token = req.cookies.jwt;
+
+      jwt.verify(
+        refresh_token,
+        process.env.JWT_REFRESH_SECRET,
+        (err, decoded) => {
+          if (err) {
+            res.status(406).send({
+              error: err,
+            });
+          } else {
+            const email = decoded.email;
+            req.email = email;
+            next();
+          }
+        }
+      );
+    } else {
+      res.status(406).send({
+        error: "Unauthorized",
+      });
     }
   } catch (err) {
     console.error(err);
