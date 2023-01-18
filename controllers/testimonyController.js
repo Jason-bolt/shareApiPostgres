@@ -7,8 +7,11 @@ exports.createTestimony = async (req, res) => {
       testimony: testimony,
       tags: tags,
     };
+
+    const userID = req.user.id;
     const newTestimony = await testimonyService.createTestimony(
-      testimonyPayload
+      testimonyPayload,
+      userID
     );
 
     if (newTestimony.error) {
