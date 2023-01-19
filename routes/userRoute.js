@@ -28,4 +28,11 @@ router.post("/refreshToken", [
 // @route Post /user/logout
 router.post("/logout", [Middleware.isRefreshTokenValid, userController.logout]);
 
+// @desc  Delete user account
+// @route Post /user/delete
+router.post("/delete", [
+  Middleware.isRefreshTokenValid,
+  userController.deleteAccount,
+]);
+
 module.exports = router;

@@ -62,6 +62,10 @@ exports.deleteTestimony = async (req, res) => {
   try {
     const testimonyID = req.body.id;
 
+    if (!testimonyID) {
+      return res.status(400).send({ error: "Testimony ID is required!" });
+    }
+
     const deleted = await testimonyService.deleteTestimony(testimonyID);
 
     if (deleted) {

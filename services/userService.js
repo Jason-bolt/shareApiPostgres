@@ -62,3 +62,27 @@ exports.refreshToken = async (email) => {
     return { error: err };
   }
 };
+
+exports.deleteAccount = async (userID) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: userID,
+      },
+    });
+
+    if (!user) {
+      return { error: "Invalid user ID" };
+    } else {
+      await User.destroy({
+        where: {
+          id: userID,
+        },
+      });
+      return true;
+    }
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};

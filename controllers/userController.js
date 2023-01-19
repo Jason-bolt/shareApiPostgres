@@ -59,3 +59,24 @@ exports.logout = (req, res) => {
     return { error: err };
   }
 };
+
+exports.deleteAccount = async (req, res) => {
+  try {
+    const userID = req.body.id;
+
+    if (!userID) {
+      return res.status(400).send({ error: "User ID is required!" });
+    }
+
+    const deleted = await userService.deleteAccount(userID);
+
+    if (deleted) {
+      res.clearCookie("jwt").status(200).send("Account deleted!");
+    } else {
+      res.status(500).send({ error: deleted.error });
+    }
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};
