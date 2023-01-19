@@ -5,4 +5,8 @@ const publicController = require("../controllers/publicController");
 // @route   GET /
 router.get("/", publicController.getAllTestimonies);
 
+// @desc    Search testimonies by tags
+// @route   POST /search
+router.get("/search", publicController.search);
+
 module.exports = router;
