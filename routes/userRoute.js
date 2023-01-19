@@ -24,4 +24,8 @@ router.post("/refreshToken", [
   userController.refreshToken,
 ]);
 
+// @desc  Log user out
+// @route Post /user/logout
+router.post("/logout", [Middleware.isRefreshTokenValid, userController.logout]);
+
 module.exports = router;

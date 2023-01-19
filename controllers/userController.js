@@ -50,3 +50,12 @@ exports.refreshToken = async (req, res) => {
     res.status(500).send({ error: err });
   }
 };
+
+exports.logout = (req, res) => {
+  try {
+    res.clearCookie("jwt").status(200).send({ message: "Logged out!" });
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};
