@@ -21,5 +21,6 @@ const Testimony = sequelize.define("Testimony", {
 });
 
 User.hasMany(Testimony);
+Testimony.belongsTo(User);
 
 module.exports = Testimony;

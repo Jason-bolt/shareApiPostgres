@@ -16,6 +16,27 @@ exports.getAllTestimonies = async (req, res) => {
   }
 };
 
+exports.getOneTestimony = async (req, res) => {
+  try {
+    const testimonyID = req.params.id;
+
+    if (!testimonyID) {
+      return res.status(403).send({ error: "Missing testimony ID!" });
+    }
+    const testimony = await publicService.getOneTestimony(testimonyID);
+    if (testimony.error) {
+      res.status(500).send({
+        error: testimony.error,
+      });
+    }
+    res.status(200).send(testimony);
+  } catch (err) {
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
 exports.search = async (req, res) => {
   try {
     const tag = req.query.tag;

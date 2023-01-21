@@ -5,6 +5,10 @@ const publicController = require("../controllers/publicController");
 // @route   GET /
 router.get("/", publicController.getAllTestimonies);
 
+// @desc    Get one testimony
+// @route   GET /:id
+router.get("/:id", publicController.getOneTestimony);
+
 // @desc    Search testimonies by tags
 // @route   POST /search
 router.get("/search", publicController.search);
