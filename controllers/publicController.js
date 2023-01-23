@@ -21,7 +21,7 @@ exports.getOneTestimony = async (req, res) => {
     const testimonyID = req.params.id;
 
     if (!testimonyID) {
-      return res.status(400).send({ error: "Missing testimony ID!" });
+      return res.status(404).send({ error: "Testimony cannot be found!" });
     }
     if (isNaN(testimonyID)) {
       return res.status(400).send({ error: "ID must be an integer" });
