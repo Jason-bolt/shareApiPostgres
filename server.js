@@ -23,7 +23,7 @@ db.sync()
     app.use(morgan("dev"));
     app.use("/", publicRoute);
     app.use("/user", userRoute);
-    app.use("/testimony", testimonyRoute);
+    app.use("/testimonies", testimonyRoute);
 
     app.listen(PORT, console.log(`Server running on port ${PORT}`));
   })

@@ -1,4 +1,5 @@
 const Testimony = require("../models/Testimony");
+const User = require("../models/User");
 
 exports.createTestimony = async (testimonyPayload, userID) => {
   try {
@@ -12,6 +13,24 @@ exports.createTestimony = async (testimonyPayload, userID) => {
 
     return newTestimony;
   } catch (err) {
+    return { error: err };
+  }
+};
+
+exports.getUserTestimonies = async (userID) => {
+  try {
+    const testimonies = await Testimony.findAll({
+      include: {
+        model: User,
+        where: {
+          id: userID,
+        },
+      },
+    });
+
+    return testimonies;
+  } catch (err) {
+    console.error(err);
     return { error: err };
   }
 };
