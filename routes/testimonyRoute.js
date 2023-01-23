@@ -11,11 +11,8 @@ router.post("/", [
 ]);
 
 // @desc   Get user testimonies
-// @route   POST /testimonies/peruser
-router.get("/peruser", [
-  Middleware.auth,
-  testimonyController.getUserTestimonies,
-]);
+// @route   POST /testimonies/user/:id
+router.get("/user/:user_id", [testimonyController.getUserTestimonies]);
 
 // @desc    Update testimony
 // @route   PUT /testimonies/update

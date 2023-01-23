@@ -31,9 +31,16 @@ exports.createTestimony = async (req, res) => {
 
 exports.getUserTestimonies = async (req, res) => {
   try {
-    const userID = req.user.id;
-    const testimonies = await testimonyService.getUserTestimonies(userID);
+    const userID = req.params.user_id;
 
+    if (!userID) {
+      return res.status(404).send({ error: "Missing User ID" });
+    }
+    if (isNaN(userID)) {
+      return res.status(400).send({ error: "ID must be an integer" });
+    }
+
+    const testimonies = await testimonyService.getUserTestimonies(userID);
     if (!testimonies) {
       res.status(404).send({
         error: "Testimonies cannot be found for user!",
