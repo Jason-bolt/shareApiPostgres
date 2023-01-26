@@ -25,6 +25,7 @@ exports.getUserTestimonies = async (userID) => {
         where: {
           id: userID,
         },
+        attributes: ["email", "firstName", "lastName"],
       },
     });
 

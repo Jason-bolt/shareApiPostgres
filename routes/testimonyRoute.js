@@ -3,8 +3,8 @@ const testimonyController = require("../controllers/testimonyController");
 const Middleware = require("../middlewares/Middleware");
 
 // @desc    Create testimony
-// @route   POST /testimonies
-router.post("/", [
+// @route   POST /testimonies/create
+router.post("/create", [
   Middleware.auth,
   Middleware.validateTestimony,
   testimonyController.createTestimony,
@@ -19,6 +19,7 @@ router.get("/user/:user_id", [testimonyController.getUserTestimonies]);
 router.put("/update", [
   Middleware.auth,
   Middleware.validateTestimony,
+  Middleware.userCanUpdateTestimony,
   testimonyController.updateTestimony,
 ]);
 
@@ -26,6 +27,7 @@ router.put("/update", [
 // @route   DELETE /testimonies/delete
 router.delete("/delete", [
   Middleware.auth,
+  Middleware.userCanDeleteTestimony,
   testimonyController.deleteTestimony,
 ]);
 

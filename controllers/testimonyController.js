@@ -69,7 +69,7 @@ exports.updateTestimony = async (req, res) => {
     );
 
     if (updated) {
-      res.status(200).send("Testimony updated");
+      res.status(200).send({ message: "Testimony updated" });
     } else {
       res.status(500).send({
         error: updated.error,
@@ -94,7 +94,7 @@ exports.deleteTestimony = async (req, res) => {
     const deleted = await testimonyService.deleteTestimony(testimonyID);
 
     if (deleted) {
-      res.status(200).send("Testimony deleted!");
+      res.status(200).send({ message: "Testimony deleted!" });
     } else {
       res.status(500).send({ error: deleted.error });
     }

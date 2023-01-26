@@ -2,6 +2,7 @@ const User = require("../models/User");
 let Validator = require("validatorjs");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Testimony = require("../models/Testimony");
 
 exports.userValidFields = (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
@@ -160,6 +161,64 @@ exports.auth = (req, res, next) => {
         }
       });
     }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
+exports.userCanUpdateTestimony = async (req, res, next) => {
+  try {
+    const testimonyID = req.query.id;
+    const testimony = await Testimony.findOne({
+      where: {
+        id: testimonyID,
+      },
+      include: {
+        model: User,
+      },
+    });
+
+    const userID = req.user.id;
+
+    if (testimony.User.id !== userID) {
+      return res.status(401).send({
+        error: "User does not have permission to update this testimony!",
+      });
+    }
+
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
+exports.userCanDeleteTestimony = async (req, res, next) => {
+  try {
+    const testimonyID = req.body.id;
+    const testimony = await Testimony.findOne({
+      where: {
+        id: testimonyID,
+      },
+      include: {
+        model: User,
+      },
+    });
+
+    const userID = req.user.id;
+
+    if (testimony.User.id !== userID) {
+      return res.status(401).send({
+        error: "User does not have permission to delete this testimony!",
+      });
+    }
+
+    next();
   } catch (err) {
     console.error(err);
     res.status(500).send({
