@@ -18,6 +18,10 @@ const Testimony = sequelize.define("Testimony", {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: false,
   },
+  isApproved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 User.hasMany(Testimony);

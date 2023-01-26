@@ -96,6 +96,7 @@ exports.isPasswordAndUserMatch = async (req, res, next) => {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
+            role: user.role,
           };
           next();
         } else {
@@ -251,6 +252,24 @@ exports.validateTestimony = (req, res, next) => {
     } else {
       next();
     }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: err,
+    });
+  }
+};
+
+// ADMIN
+exports.isAdmin = (req, res, next) => {
+  try {
+    userRole = req.user.role;
+    if (userRole !== "Admin") {
+      return res
+        .status(401)
+        .send({ error: "Must be an admin to execute this task" });
+    }
+    next();
   } catch (err) {
     console.error(err);
     res.status(500).send({

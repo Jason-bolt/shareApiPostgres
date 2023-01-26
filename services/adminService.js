@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const Testimony = require("../models/Testimony");
 
 exports.createAdmin = async (user) => {
   try {
@@ -12,6 +13,25 @@ exports.createAdmin = async (user) => {
       role: "Admin",
     });
     return newuser;
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};
+
+exports.approveTestimony = async (testimonyID) => {
+  try {
+    await Testimony.update(
+      {
+        isApproved: true,
+      },
+      {
+        where: {
+          id: testimonyID,
+        },
+      }
+    );
+    return true;
   } catch (err) {
     console.error(err);
     return { error: err };
