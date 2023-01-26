@@ -6,6 +6,7 @@ const db = require("./config/db");
 const publicRoute = require("./routes/publicRoute");
 const userRoute = require("./routes/userRoute");
 const testimonyRoute = require("./routes/testimonyRoute");
+const adminRoute = require("./routes/adminRoute");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 
@@ -24,6 +25,7 @@ db.sync()
     app.use("/", publicRoute);
     app.use("/user", userRoute);
     app.use("/testimonies", testimonyRoute);
+    app.use("/admin", adminRoute);
 
     app.listen(PORT, console.log(`Server running on port ${PORT}`));
   })
