@@ -11,6 +11,10 @@ exports.getAllTestimonies = async () => {
           attributes: ["email", "firstName", "lastName"],
         },
       ],
+      where: {
+        isApproved: true,
+      },
+      order: [["createdAt", "ASC"]],
     });
     return testimonies;
   } catch (err) {
