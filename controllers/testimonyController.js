@@ -61,7 +61,7 @@ exports.updateTestimony = async (req, res) => {
       testimony: testimony,
       tags: tags,
     };
-    const testimonyID = req.query.id;
+    const testimonyID = req.params.id;
     console.log(testimonyID);
     const updated = await testimonyService.updateTestimony(
       testimonyPayload,

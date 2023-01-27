@@ -51,6 +51,26 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+exports.updateUsername = async (req, res) => {
+  try {
+    userID = req.user.id;
+    const { firstName, lastName } = req.username;
+    const username = {
+      firstName: firstName,
+      lastName: lastName,
+    };
+    const updatedUsername = await userService.updateUsername(username, userID);
+    if (updatedUsername) {
+      res.clearCookie("jwt").status(200).send({ message: "Username updated!" });
+    } else {
+      res.status(500).send({ error: updatedUsername.error });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err });
+  }
+};
+
 exports.logout = (req, res) => {
   try {
     res.clearCookie("jwt").status(200).send({ message: "Logged out!" });
@@ -71,7 +91,7 @@ exports.deleteAccount = async (req, res) => {
     const deleted = await userService.deleteAccount(userID);
 
     if (deleted) {
-      res.clearCookie("jwt").status(200).send("Account deleted!");
+      res.clearCookie("jwt").status(200).send({ message: "Account deleted!" });
     } else {
       res.status(500).send({ error: deleted.error });
     }

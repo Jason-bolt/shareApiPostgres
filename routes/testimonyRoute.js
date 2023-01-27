@@ -15,7 +15,7 @@ router.post("/create", [
 router.get("/user/:user_id", [testimonyController.getUserTestimonies]);
 
 // @desc    Update testimony
-// @route   PUT /testimonies/update
+// @route   PUT /testimonies/update/:id
 router.put("/update", [
   Middleware.auth,
   Middleware.validateTestimony,

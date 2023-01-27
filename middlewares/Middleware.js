@@ -39,6 +39,41 @@ exports.userValidFields = (req, res, next) => {
   }
 };
 
+exports.usernameValidFields = (req, res, next) => {
+  const userID = req.params.id;
+  if (userID != req.user.id) {
+    return res
+      .status(403)
+      .send({ error: "Cannot change username of a different user!" });
+  }
+  const { firstName, lastName } = req.body;
+  let data = {
+    firstName: firstName,
+    lastName: lastName,
+  };
+
+  let rules = {
+    firstName: "required|string",
+    lastName: "required|string",
+  };
+
+  let validation = new Validator(data, rules);
+
+  if (validation.fails()) {
+    res.status(403).send({
+      errors: validation.errors.errors,
+    });
+  } else {
+    const username = {
+      firstName: firstName,
+      lastName: lastName,
+    };
+
+    req.username = username;
+    next();
+  }
+};
+
 exports.isUserUnique = async (req, res, next) => {
   try {
     const email = req.user.email;
@@ -172,7 +207,7 @@ exports.auth = (req, res, next) => {
 
 exports.userCanUpdateTestimony = async (req, res, next) => {
   try {
-    const testimonyID = req.query.id;
+    const testimonyID = req.params.id;
     const testimony = await Testimony.findOne({
       where: {
         id: testimonyID,

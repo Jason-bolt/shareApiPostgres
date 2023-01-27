@@ -24,6 +24,14 @@ router.post("/refreshToken", [
   userController.refreshToken,
 ]);
 
+// @desc  Update username
+// @route Put /user/update/:id
+router.put("/update/:id", [
+  Middleware.auth,
+  Middleware.usernameValidFields,
+  userController.updateUsername,
+]);
+
 // @desc  Log user out
 // @route Post /user/logout
 router.post("/logout", [Middleware.isRefreshTokenValid, userController.logout]);

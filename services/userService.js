@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { where } = require("sequelize");
 
 exports.createUser = async (user) => {
   try {
@@ -57,6 +58,27 @@ exports.refreshToken = async (email) => {
     const acces_token = jwt.sign(data, process.env.JWT_TOKEN_SECRET);
     console.log(acces_token);
     return { acces_token: acces_token };
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};
+
+exports.updateUsername = async (username, userID) => {
+  try {
+    const { firstName, lastName } = username;
+    await User.update(
+      {
+        firstName: firstName,
+        lastName: lastName,
+      },
+      {
+        where: {
+          id: userID,
+        },
+      }
+    );
+    return true;
   } catch (err) {
     console.error(err);
     return { error: err };
