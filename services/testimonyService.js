@@ -17,16 +17,18 @@ exports.createTestimony = async (testimonyPayload, userID) => {
   }
 };
 
-exports.getUserTestimonies = async (userID) => {
+exports.getApprovedUserTestimonies = async (userID) => {
   try {
     const testimonies = await Testimony.findAll({
       include: {
         model: User,
         where: {
           id: userID,
-          isApproved: true,
         },
         attributes: ["email", "firstName", "lastName"],
+      },
+      where: {
+        isApproved: true,
       },
     });
 

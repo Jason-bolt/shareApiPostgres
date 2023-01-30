@@ -29,7 +29,7 @@ exports.createTestimony = async (req, res) => {
   }
 };
 
-exports.getUserTestimonies = async (req, res) => {
+exports.getApprovedUserTestimonies = async (req, res) => {
   try {
     const userID = req.params.user_id;
 
@@ -40,7 +40,9 @@ exports.getUserTestimonies = async (req, res) => {
       return res.status(400).send({ error: "ID must be an integer" });
     }
 
-    const testimonies = await testimonyService.getUserTestimonies(userID);
+    const testimonies = await testimonyService.getApprovedUserTestimonies(
+      userID
+    );
     if (!testimonies) {
       res.status(404).send({
         error: "Testimonies cannot be found for user!",
