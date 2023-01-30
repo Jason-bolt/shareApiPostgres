@@ -45,6 +45,7 @@ exports.updateTestimony = async (testimonyPayload, testimonyID) => {
       {
         testimony: testimony,
         tags: tags,
+        isApproved: false,
       },
       {
         where: {

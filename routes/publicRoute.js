@@ -10,7 +10,7 @@ router.get("/", publicController.getAllTestimonies);
 router.get("/:id", publicController.getOneTestimony);
 
 // @desc    Search testimonies by tags
-// @route   POST /search
-router.get("/search", publicController.search);
+// @route   POST /search/tag/:tag
+router.get("/search/tag/:tag", publicController.search);
 
 module.exports = router;

@@ -49,7 +49,8 @@ exports.getOneTestimony = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const tag = req.query.tag;
+    let tag = req.params.tag;
+    tag = tag[0].toUpperCase() + tag.substring(1);
     const testimonies = await publicService.search(tag);
 
     if (testimonies.error) {
