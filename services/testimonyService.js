@@ -24,6 +24,7 @@ exports.getUserTestimonies = async (userID) => {
         model: User,
         where: {
           id: userID,
+          isApproved: true,
         },
         attributes: ["email", "firstName", "lastName"],
       },

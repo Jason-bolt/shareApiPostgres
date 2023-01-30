@@ -28,6 +28,7 @@ exports.getOneTestimony = async (testimonyID) => {
     const testimony = await Testimony.findOne({
       where: {
         id: testimonyID,
+        isApproved: true,
       },
       include: [
         {
@@ -50,6 +51,7 @@ exports.search = async (tag) => {
         tags: {
           [Op.contains]: [tag],
         },
+        isApproved: true,
       },
       include: [
         {
