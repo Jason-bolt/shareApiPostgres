@@ -39,6 +39,25 @@ exports.getApprovedUserTestimonies = async (userID) => {
   }
 };
 
+exports.getAllUserTestimonies = async (userID) => {
+  try {
+    const testimonies = await Testimony.findAll({
+      include: {
+        model: User,
+        where: {
+          id: userID,
+        },
+        attributes: ["email", "firstName", "lastName"],
+      },
+    });
+
+    return testimonies;
+  } catch (err) {
+    console.error(err);
+    return { error: err };
+  }
+};
+
 exports.updateTestimony = async (testimonyPayload, testimonyID) => {
   try {
     const { testimony, tags } = testimonyPayload;

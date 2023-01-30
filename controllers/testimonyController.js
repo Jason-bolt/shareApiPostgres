@@ -56,6 +56,31 @@ exports.getApprovedUserTestimonies = async (req, res) => {
   }
 };
 
+exports.getAllUserTestimonies = async (req, res) => {
+  try {
+    const userID = req.params.user_id;
+
+    if (!userID) {
+      return res.status(404).send({ error: "Missing User ID" });
+    }
+    if (isNaN(userID)) {
+      return res.status(400).send({ error: "ID must be an integer" });
+    }
+
+    const testimonies = await testimonyService.getAllUserTestimonies(userID);
+    if (!testimonies) {
+      res.status(404).send({
+        error: "Testimonies cannot be found for user!",
+      });
+    } else {
+      res.status(200).send({ testimonies });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err });
+  }
+};
+
 exports.updateTestimony = async (req, res) => {
   try {
     const { testimony, tags } = req.body;

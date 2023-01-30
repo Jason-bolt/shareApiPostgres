@@ -179,11 +179,15 @@ exports.isRefreshTokenValid = async (req, res, next) => {
 exports.auth = (req, res, next) => {
   try {
     const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      return res.status(403).send({ error: "No access token!" });
+    }
+
     const token = authHeader.split(" ")[1];
 
     if (!token) {
       res.status(403).send({
-        error: "No access token",
+        error: "No access token!",
       });
     } else {
       jwt.verify(token, process.env.JWT_TOKEN_SECRET, (err, user) => {

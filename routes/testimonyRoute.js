@@ -11,9 +11,16 @@ router.post("/create", [
 ]);
 
 // @desc   Get approved user testimonies
-// @route   POST /testimonies/user/:id
+// @route   POST /testimonies/approved/user/:id
 router.get("/approved/user/:user_id", [
   testimonyController.getApprovedUserTestimonies,
+]);
+
+// @desc   Get all user testimonies
+// @route   POST /testimonies/all/user/:id
+router.get("/all/user/:user_id", [
+  Middleware.auth,
+  testimonyController.getAllUserTestimonies,
 ]);
 
 // @desc    Update testimony
