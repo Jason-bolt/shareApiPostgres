@@ -302,7 +302,7 @@ exports.validateTestimony = (req, res, next) => {
 // ADMIN
 exports.isAdmin = (req, res, next) => {
   try {
-    userRole = req.user.role;
+    const userRole = req.user.role;
     if (userRole !== "Admin") {
       return res
         .status(401)
