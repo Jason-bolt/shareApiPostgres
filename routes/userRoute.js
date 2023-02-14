@@ -3,7 +3,7 @@ const userController = require("../controllers/userController");
 const Middleware = require("../middlewares/Middleware");
 
 // @desc    Create user
-// @route   POST /user
+// @route   POST /user/register
 router.post("/register", [
   Middleware.userValidFields,
   Middleware.isUserUnique,

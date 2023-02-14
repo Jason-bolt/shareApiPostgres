@@ -1,17 +1,24 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { where } = require("sequelize");
+const emailHelper = require("../helper/emailHelper");
 
 exports.createUser = async (user) => {
   try {
     hashed_password = await bcrypt.hash(user.password, 10);
-    const newuser = User.create({
+    const newuser = await User.create({
       email: user.email,
       password: hashed_password,
       firstName: user.firstName,
       lastName: user.lastName,
     });
+    const messageSent = await emailHelper.sendConfirmatoryEmail(newuser);
+
+    console.log(messageSent);
+    if (messageSent.error) {
+      return { error: messageSent.error };
+    }
+
     return newuser;
   } catch (err) {
     console.error(err);
