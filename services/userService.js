@@ -14,7 +14,6 @@ exports.createUser = async (user) => {
     });
     const messageSent = await emailHelper.sendConfirmatoryEmail(newUser);
 
-    console.log(messageSent);
     if (messageSent.error) {
       return { error: messageSent.error };
     }
@@ -85,7 +84,7 @@ exports.login = (user) => {
 exports.updateUsername = async (username, userID) => {
   try {
     const { firstName, lastName } = username;
-    await User.update(
+    const updated = await User.update(
       {
         firstName: firstName,
         lastName: lastName,
@@ -96,6 +95,7 @@ exports.updateUsername = async (username, userID) => {
         },
       }
     );
+    console.log(updated);
     return true;
   } catch (err) {
     console.error(err);

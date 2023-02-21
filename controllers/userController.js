@@ -21,16 +21,10 @@ exports.createUser = async (req, res) => {
 
 exports.login = (req, res) => {
   try {
-    const { access_token, refresh_token } = userService.login(req.body);
-    res.cookie("jwt", refresh_token, {
-      httpOnly: true,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
-    });
+    const { access_token } = userService.login(req.body);
+
     res.status(200).send({ access_token });
   } catch (err) {
-    console.error(err);
     res.status(500).send({ error: err });
   }
 };
@@ -60,20 +54,19 @@ exports.updateUsername = async (req, res) => {
       lastName: lastName,
     };
     const updatedUsername = await userService.updateUsername(username, userID);
-    if (updatedUsername) {
-      res.clearCookie("jwt").status(200).send({ message: "Username updated!" });
-    } else {
+    if (updatedUsername.error) {
       res.status(500).send({ error: updatedUsername.error });
+    } else {
+      res.status(200).send({ message: "Username updated!" });
     }
   } catch (err) {
-    console.error(err);
     res.status(500).send({ error: err });
   }
 };
 
 exports.logout = (req, res) => {
   try {
-    res.clearCookie("jwt").status(200).send({ message: "Logged out!" });
+    res.status(200).send({ message: "Logged out!" });
   } catch (err) {
     console.error(err);
     return { error: err };
@@ -91,7 +84,7 @@ exports.deleteAccount = async (req, res) => {
     const deleted = await userService.deleteAccount(userID);
 
     if (deleted) {
-      res.clearCookie("jwt").status(200).send({ message: "Account deleted!" });
+      res.status(200).send({ message: "Account deleted!" });
     } else {
       res.status(500).send({ error: deleted.error });
     }
