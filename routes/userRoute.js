@@ -19,10 +19,10 @@ router.post("/login", [
 
 // @desc  Refresh token
 // @route Post /user/refreshToken
-router.post("/refreshToken", [
-  Middleware.isRefreshTokenValid,
-  userController.refreshToken,
-]);
+// router.post("/refreshToken", [
+//   Middleware.isRefreshTokenValid,
+//   userController.refreshToken,
+// ]);
 
 // @desc  Update username
 // @route Put /user/update/:id

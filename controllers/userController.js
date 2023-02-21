@@ -35,21 +35,21 @@ exports.login = (req, res) => {
   }
 };
 
-exports.refreshToken = async (req, res) => {
-  try {
-    const access_token = await userService.refreshToken(req.email);
-    if (access_token.error) {
-      res.status(500).send({
-        error: access_token.error,
-      });
-    } else {
-      res.send(access_token);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: err });
-  }
-};
+// exports.refreshToken = async (req, res) => {
+//   try {
+//     const access_token = await userService.refreshToken(req.email);
+//     if (access_token.error) {
+//       res.status(500).send({
+//         error: access_token.error,
+//       });
+//     } else {
+//       res.send(access_token);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send({ error: err });
+//   }
+// };
 
 exports.updateUsername = async (req, res) => {
   try {
