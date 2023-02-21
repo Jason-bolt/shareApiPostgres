@@ -22,10 +22,10 @@ db.sync()
     app.use(cookieParser());
     app.use(cors());
     app.use(morgan("dev"));
-    app.use("/", publicRoute);
-    app.use("/user", userRoute);
-    app.use("/testimonies", testimonyRoute);
-    app.use("/admin", adminRoute);
+    app.use("/api/v1", publicRoute);
+    app.use("/api/v1/user", userRoute);
+    app.use("/api/v1/testimonies", testimonyRoute);
+    app.use("/api/v1/admin", adminRoute);
 
     app.listen(PORT, console.log(`Server running on port ${PORT}`));
   })

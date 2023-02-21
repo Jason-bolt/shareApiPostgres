@@ -23,20 +23,19 @@ exports.userValidFields = (req, res, next) => {
   let validation = new Validator(data, rules);
 
   if (validation.fails()) {
-    res.status(403).send({
+    return res.status(403).send({
       errors: validation.errors.errors,
     });
-  } else {
-    const user = {
-      email: email,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-    };
-
-    req.user = user;
-    next();
   }
+  const user = {
+    email: email,
+    password: password,
+    firstName: firstName,
+    lastName: lastName,
+  };
+
+  req.user = user;
+  next();
 };
 
 exports.usernameValidFields = (req, res, next) => {

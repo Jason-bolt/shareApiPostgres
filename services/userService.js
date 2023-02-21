@@ -6,20 +6,37 @@ const emailHelper = require("../helper/emailHelper");
 exports.createUser = async (user) => {
   try {
     hashed_password = await bcrypt.hash(user.password, 10);
-    const newuser = await User.create({
+    const newUser = await User.create({
       email: user.email,
       password: hashed_password,
       firstName: user.firstName,
       lastName: user.lastName,
     });
-    const messageSent = await emailHelper.sendConfirmatoryEmail(newuser);
+    const messageSent = await emailHelper.sendConfirmatoryEmail(newUser);
 
     console.log(messageSent);
     if (messageSent.error) {
       return { error: messageSent.error };
     }
 
-    return newuser;
+    // "role": "Basic",
+    // "id": 1,
+    // "email": "test@email.com",
+    // "password": "$2b$10$WKOo3P4yUUiacXJZ450tv.DBGWyqk83VHuz9tULc9hHW37sVFbBjO",
+    // "firstName": "Jason",
+    // "lastName": "Appiatu",
+    // "updatedAt": "2023-02-21T15:31:37.555Z",
+    // "createdAt": "2023-02-21T15:31:37.555Z"
+
+    return {
+      role: newUser.role,
+      id: newUser.id,
+      email: newUser.email,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      updatedAt: newUser.updatedAt,
+      createdAt: newUser.createdAt,
+    };
   } catch (err) {
     console.error(err);
     return { error: err };
