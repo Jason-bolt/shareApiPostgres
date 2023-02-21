@@ -34,13 +34,10 @@ router.put("/update/:id", [
 
 // @desc  Log user out
 // @route Post /user/logout
-router.post("/logout", [Middleware.isRefreshTokenValid, userController.logout]);
+router.post("/logout", [Middleware.auth, userController.logout]);
 
 // @desc  Delete user account
 // @route Post /user/delete
-router.post("/delete", [
-  Middleware.isRefreshTokenValid,
-  userController.deleteAccount,
-]);
+router.post("/delete", [Middleware.auth, userController.deleteAccount]);
 
 module.exports = router;
