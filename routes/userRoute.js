@@ -15,7 +15,7 @@ router.post("/register", [
 router.post("/login", [
   Middleware.isPasswordAndUserMatch,
   userController.login,
-]);
+]); // Place jwt in local storage
 
 // @desc  Refresh token
 // @route Post /user/refreshToken
@@ -34,7 +34,7 @@ router.put("/update/:id", [
 
 // @desc  Log user out
 // @route Post /user/logout
-router.post("/logout", [Middleware.auth, userController.logout]);
+router.post("/logout", [Middleware.auth, userController.logout]); // Delete jwt from local storage
 
 // @desc  Delete user account
 // @route Post /user/delete
