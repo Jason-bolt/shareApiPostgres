@@ -17,6 +17,13 @@ router.post("/login", [
   userController.login,
 ]); // Place jwt in local storage
 
+// @desc    Send link to user to change password
+// @route   POST /user/send-forgot-password-link
+router.post("/send-forgot-password-link", [
+  Middleware.emailExists,
+  userController.sendResetLink,
+]);
+
 // @desc  Refresh token
 // @route Post /user/refreshToken
 // router.post("/refreshToken", [

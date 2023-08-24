@@ -29,6 +29,10 @@ exports.login = (req, res) => {
   }
 };
 
+exports.sendResetLink = (req, res) => {
+  
+}
+
 // exports.refreshToken = async (req, res) => {
 //   try {
 //     const access_token = await userService.refreshToken(req.email);

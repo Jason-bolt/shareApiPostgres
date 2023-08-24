@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 const User = require("./User");
 
-const Testimony = sequelize.define("Testimony", {
+const ForgotPassword = sequelize.define("Testimony", {
   // Model attributes are defined here
   id: {
     type: DataTypes.INTEGER,
@@ -10,21 +10,13 @@ const Testimony = sequelize.define("Testimony", {
     primaryKey: true,
     allowNull: false,
   },
-  testimony: {
+  token: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  tags: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
-  },
-  isApproved: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+  }
 });
 
-User.hasMany(Testimony);
-Testimony.belongsTo(User);
+ForgotPassword.hasMany(User);
+User.belongsTo(ForgotPassword);
 
-module.exports = Testimony;
+module.exports = ForgotPassword;

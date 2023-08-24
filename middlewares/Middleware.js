@@ -73,6 +73,35 @@ exports.usernameValidFields = (req, res, next) => {
   }
 };
 
+exports.emailExists = async (rea, res, next) => {
+  try {
+    const email = req.body.email;
+    if (!email) {
+      return res.status(403).send({
+        errors: "Email is required!",
+      });
+    }
+
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(400).send({
+        error: "User does not exist!",
+      });
+    }
+
+    next();
+  } catch (err) {
+    return res.status(500).send({
+      error: err,
+    });
+  }
+};
+
 exports.isUserUnique = async (req, res, next) => {
   try {
     const email = req.user.email;

@@ -52,10 +52,17 @@ exports.login = (user) => {
       access_token: access_token,
     };
   } catch (err) {
-    console.error(err);
     return { error: err };
   }
 };
+
+exports.sendResetLink = (email) => {
+  try {
+    
+  } catch (err) {
+    return { error: err };
+  }
+}
 
 // exports.refreshToken = async (email) => {
 //   try {

@@ -10,7 +10,6 @@ exports.sendConfirmatoryEmail = async (user) => {
     },
   });
 
-  console.log(`User ######## ${user}`);
   const message = `
     <!DOCTYPE html>
 <html>
@@ -282,6 +281,33 @@ exports.sendConfirmatoryEmail = async (user) => {
       to: user.email, // list of receivers
       subject: "Registration confirmation", // Subject line
       text: "Hello world?", // plain text body
+      html: message, // html body
+    });
+    return info;
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+exports.sendResetPasswordLink = async (email, token) => {
+  const transport = nodemailer.createTransport({
+    host: "sandbox.smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+      user: "47dae9967e998c",
+      pass: "5ca812cacaeff8",
+    },
+  });
+
+  const link = `http://localhost:4000/api/v1/user/reset-password/${token}`
+  const message = `Please use this link to reset your password, it expires in 10m  ${link}`;
+
+  try {
+    let info = await transport.sendMail({
+      from: "info@testimony.com", // sender address
+      to: email, // list of receivers
+      subject: "Reset password", // Subject line
+      // text: "Hello world?", // plain text body
       html: message, // html body
     });
     return info;
